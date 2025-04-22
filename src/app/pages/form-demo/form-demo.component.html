@@ -1,0 +1,143 @@
+<div class="container">
+  <div class="form-section">
+    <form [formGroup]="demoForm" class="example-form" (ngSubmit)="onSubmit()" #formDirective="ngForm">
+
+      <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="firstName" formControlName="firstName">
+        <div class="errorMsg"
+          *ngIf="demoForm.get('firstName')?.hasError('required') && (demoForm.get('firstName')?.touched || demoForm.get('firstName')?.dirty)">
+          *Name is required
+        </div>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="lastName" formControlName="lastName">
+        <div class="errorMsg"
+          *ngIf="demoForm.get('lastName')?.hasError('required') && (demoForm.get('lastName')?.touched || demoForm.get('lastName')?.dirty)">
+          *Name is required
+        </div>
+
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Birthday</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthDate">
+        <!-- <mat-hint >MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Age </mat-label>
+        <input matInput placeholder="age" formControlName="age">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Job Role</mat-label>
+        <mat-select formControlName="role">
+          @for (job of jobs; track job) {
+          <mat-option [value]="job.role">{{job.role}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="email" formControlName="email">
+        <div class="errorMsg"
+          *ngIf="demoForm.get('email')?.hasError('email') && (demoForm.get('email')?.touched || demoForm.get('email')?.dirty)">
+          *Please Enter Valid Email
+        </div>
+      </mat-form-field>
+
+      <div class="example-full-width">
+        <mat-radio-group aria-label="Select an option" formControlName="gender">
+          <mat-radio-button value="Male">Male</mat-radio-button>
+          <mat-radio-button value="Female">Female</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="isButtonDisabled"
+        [disabled]="!demoForm.valid">{{saveBtnLabel}}</button>
+      <button (click)="resetData(formDirective)" type="button" class="btn btn-light">Reset</button>
+
+    </form>
+  </div>
+
+  <div class="table-section">
+    <span>
+      <button mat-icon-button color="primary" (click)="refreshData()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </span>
+    <mat-form-field style="width: 50%;">
+      <mat-label>Search Here...</mat-label>
+      <input matInput id="abc" (keyup)="applyFilter($event)" placeholder="Ex. Amal Silva" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z8">
+
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="birthDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Birthday </th>
+          <td mat-cell *matCellDef="let element"> {{element.birthDate| date: 'yyyy-MM-dd'}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Age </th>
+          <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender </th>
+          <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+          <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="editData(element)" class="btn btn-warning">Edit</button>
+            <button (click)="deleteData(element)" class="btn btn-danger">Delete</button>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          [ngClass]="{'highlight-row': selectedRow && selectedRow.id === row.id,
+          'last-added-row': lastAddedRow && lastAddedRow.id === row.id}">
+        </tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4" style="padding: 10px; color:rgb(108, 102, 102); font-style: italic;"> No data
+            matching "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+
+
+
+  </div>
+</div>
