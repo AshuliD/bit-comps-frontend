@@ -39,7 +39,7 @@ export class GrnComponent implements OnInit {
   dataSourceOuter = new MatTableDataSource<any>;
 
   //filter items
-   filteredItems: any;
+  filteredItems: any;
 
 
   //button labels
@@ -154,10 +154,12 @@ export class GrnComponent implements OnInit {
 
     console.log(selectedItem);
 
-    const newItem = this.filteredItems.find((item: { id: any; }) => item.id === selectedItem);
+    const newItem = this.items.find((item: { id: any; }) => item.id === selectedItem);
     if (selectedItem) {
       // Patch the itemName to the form control
-      this.innerForm.patchValue({item: newItem?.name});
+      this.innerForm.patchValue({ item: newItem?.name });
+      console.log(newItem?.name);
+
     }
 
     if (selectedItem) {
@@ -368,6 +370,8 @@ export class GrnComponent implements OnInit {
 
         // for checkEdit function. confirm theres inner edit
         this.isinnerEdit = true;
+
+        console.log(JSON.stringify(this.innerForm.value) + "on edit inner");
 
 
         this.demoService.innerEditData(this.innerselectedData?.id, this.innerForm.value).subscribe({
@@ -651,7 +655,7 @@ export class GrnComponent implements OnInit {
     //in inner form formcontrol expect item as a object
     // this.filterItems();
     this.innerForm.patchValue(data);
-    this.innerForm.patchValue({expdate:new Date(data.expdate)});
+    this.innerForm.patchValue({ expdate: new Date(data.expdate) });
 
     console.log(this.innerForm.value);
     this.onItemChange(data.itemID);
