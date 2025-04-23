@@ -16,7 +16,7 @@ export class ItemRegComponent implements OnInit{
  demoForm: FormGroup;
 
 
-   displayedColumns: string[] =  ['name', 'code', 'brand', 'material','actions'];
+   displayedColumns: string[] =  ['name', 'code', 'brand', 'category','actions'];
    dataSource = new MatTableDataSource<any>;
    saveBtnLabel = 'Save';
    mode = 'Save';
@@ -38,9 +38,8 @@ export class ItemRegComponent implements OnInit{
       code: new FormControl('', Validators.required),
       brand: new FormControl(''),
       material: new FormControl('', Validators.required),
-      // gender: new FormControl(''),
-      // birthDate: new FormControl(),
-      // role: new FormControl(),
+      category: new FormControl(''),
+
     });
   }
   ngOnInit(): void {

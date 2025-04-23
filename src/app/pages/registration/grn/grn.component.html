@@ -30,19 +30,24 @@
           <mat-label>Item</mat-label>
           <mat-select formControlName="itemID" (selectionChange)="onItemChange($event.value)">
             @for (item of items; track item) {
-            <mat-option [value]="item.id" >{{ item.code + ' ' + item.name }}</mat-option>
+            <mat-option [value]="item.id">{{ item.code + ' ' + item.name }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-          <mat-label>Available Qty</mat-label>
+        <mat-form-field  class="example-quarter-width">
+          <mat-label>Aval. Qty</mat-label>
           <input matInput formControlName="avalqty" readonly="">
+        </mat-form-field>
+
+        <mat-form-field  class="example-quarter-width">
+          <mat-label>Category</mat-label>
+          <input matInput formControlName="itemCategory" readonly="">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <mat-label>Item Total Cost</mat-label>
-          <input matInput placeholder="Item Total Cost" formControlName="cost" >
+          <input matInput placeholder="Item Total Cost" formControlName="cost">
           <div class="errorMsg"
             *ngIf="demoForm.get('cost')?.hasError('cost') && (demoForm.get('cost')?.touched || demoForm.get('cost')?.dirty)">
             *Please Enter Valid Cost
@@ -120,10 +125,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
             <td mat-cell *matCellDef="let element">
 
-              <button type="button" (click)="editInnerData(element)"
-                class="btn btn-warning" [disabled]="editDisable"><mat-icon>edit</mat-icon></button>
-              <button type="button" (click)="deleteInnerData(element)"
-                class="btn btn-danger" [disabled]="deleteDisable"><mat-icon>delete</mat-icon></button>
+              <button type="button" (click)="editInnerData(element)" class="btn btn-warning"
+                [disabled]="editDisable"><mat-icon>edit</mat-icon></button>
+              <button type="button" (click)="deleteInnerData(element)" class="btn btn-danger"
+                [disabled]="deleteDisable"><mat-icon>delete</mat-icon></button>
 
             </td>
           </ng-container>
@@ -157,7 +162,8 @@
 
       <button type="submit" class="btn btn-success" [disabled]="isButtonDisabled"
         [disabled]="!demoForm.valid">{{saveBtnLabel}}</button>
-      <button (click)="resetData(formDirective)" type="button" class="btn btn-light" [disabled]="resetOuterDisabled">Reset</button>
+      <button (click)="resetData(formDirective)" type="button" class="btn btn-light"
+        [disabled]="resetOuterDisabled">Reset</button>
 
     </form>
   </div>
@@ -203,8 +209,10 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
           <td mat-cell *matCellDef="let element">
-            <button (click)="editDataOuter(element)" class="btn btn-warning" [disabled]="allOuterBtnDisabled"><mat-icon>edit</mat-icon></button>
-            <button (click)="deleteDataOuter(element)" class="btn btn-danger" [disabled]="allOuterBtnDisabled"><mat-icon>delete</mat-icon></button>
+            <button (click)="editDataOuter(element)" class="btn btn-warning"
+              [disabled]="allOuterBtnDisabled"><mat-icon>edit</mat-icon></button>
+            <button (click)="deleteDataOuter(element)" class="btn btn-danger"
+              [disabled]="allOuterBtnDisabled"><mat-icon>delete</mat-icon></button>
 
           </td>
         </ng-container>

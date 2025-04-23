@@ -22,6 +22,7 @@ export class GrnComponent implements OnInit {
 
   demoForm: FormGroup;
   innerForm: FormGroup;
+  //
 
   // deletedResponses: any[] = []; // Collection for delete responses
 
@@ -37,6 +38,8 @@ export class GrnComponent implements OnInit {
 
   displayedColumns: string[] = ['grnno', 'supplier', 'tcost', 'actions'];
   dataSourceOuter = new MatTableDataSource<any>;
+
+  //create input
 
   //filter items
   filteredItems: any;
@@ -108,7 +111,10 @@ export class GrnComponent implements OnInit {
       cost: new FormControl('', Validators.required),
       ucost: new FormControl(''),
       avalqty: new FormControl(''), //this is disable field this value get from stock table
+      itemCategory: new FormControl(''), //this is disable field this value get from stock table
     });
+
+
 
 
   }
@@ -158,6 +164,7 @@ export class GrnComponent implements OnInit {
     if (selectedItem) {
       // Patch the itemName to the form control
       this.innerForm.patchValue({ item: newItem?.name });
+      this.innerForm.patchValue({itemCategory : newItem.category})
       console.log(newItem?.name);
 
     }
@@ -166,7 +173,7 @@ export class GrnComponent implements OnInit {
 
       this.demoService.getQty(selectedItem).subscribe({
         next: (response: any) => {
-          console.log("this is item aval qty = " + JSON.stringify(response.qty));
+          console.log("this is item aval qty = " + JSON.stringify(response));
           //patch value to avalqty from responses qty - response is stock object
           this.innerForm.patchValue({ avalqty: response.qty });
         },
@@ -416,34 +423,44 @@ export class GrnComponent implements OnInit {
 
         console.log("Inner Form before submit" + JSON.stringify(this.innerForm.value));
 
-        this.demoService.serviceCallPostInner(this.innerForm.value).subscribe((response) => {
-          console.log("post data Server Response", response);
-          this.msgService.showSuccess("Inner Record Successfully Added");
+        this.demoService.serviceCallPostInner(this.innerForm.value).subscribe({
+          next: (response) => {
+            console.log("post data Server Response", response);
+            this.msgService.showSuccess("Inner Record Successfully Added");
 
-          this.innerlastAddedRow = response; // Track the last added row for css (make green color for 3 secs)
-          console.log('Added new row:', response);
-          this.resetOuterDisabled = true;
-          this.allOuterBtnDisabled = true;
+            this.innerlastAddedRow = response; // Track the last added row for CSS (make green color for 3 secs)
+            console.log('Added new row:', response);
+            this.resetOuterDisabled = true;
+            this.allOuterBtnDisabled = true;
 
-          //when insert a record show table - tableHidden is binding with [hidden] = 'tableHidden'
-          this.tableHidden = false;
-          this.getInnerGRN();
+            // When a record is inserted, show the table - tableHidden is bound with [hidden] = 'tableHidden'
+            this.tableHidden = false;
+            this.getInnerGRN();
 
-          setTimeout(() => {
-            //after 3 seconds remove green color
-            this.innerlastAddedRow = null;
+            setTimeout(() => {
+              // After 3 seconds, remove green color
+              this.innerlastAddedRow = null;
 
-
-            if (this.mode == 'edit') {
-              const innerItem = response;
-              this.demoService.stockUpdateEdit(innerItem).subscribe((response) => {
-                console.log("post data Server inner delete Response", response);
-              });
+              if (this.mode === 'edit') {
+          const innerItem = response;
+          this.demoService.stockUpdateEdit(innerItem).subscribe({
+            next: (updateResponse) => {
+              console.log("post data Server inner delete Response", updateResponse);
+            },
+            error: (updateError) => {
+              console.error("Error occurred during stock update:", updateError);
             }
+          });
+              }
 
-            this.filterItems();
+              this.filterItems();
 
-          }, 3000);
+            }, 3000);
+          },
+          error: (error) => {
+            console.error("Error occurred while adding inner record:", error);
+            this.msgService.showError("Error in Adding Inner Record: " + error.message);
+          }
         });
 
         setTimeout(() => {
