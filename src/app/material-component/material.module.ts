@@ -31,18 +31,44 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SliderComponent } from './slider/slider.component';
 import { SlideToggleComponent } from './slide-toggle/slide-toggle.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+
+const materialModules = [
+  MatFormFieldModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatButtonModule,
+  MatIconModule,
+  MatCardModule,
+  MatTooltipModule,
+  MatSelectModule,
+  CdkTableModule, // CdkTableModule was already there, keeping it
+  DemoMaterialModule // DemoMaterialModule was already there, keeping it
+];
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(MaterialRoutes),
-    DemoMaterialModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    CdkTableModule,
-    ButtonsComponent,
-    GridComponent,
+    ButtonsComponent, // These seem to be custom components, not Angular Material modules directly
+    GridComponent,    // Will keep them in imports but not typically in exports unless they are shared components
     ListsComponent,
     MenuComponent,
     TabsComponent,
@@ -57,7 +83,10 @@ import { MatTableModule } from '@angular/material/table';
     SnackbarComponent,
     SliderComponent,
     SlideToggleComponent,
-    MatTableModule
+    ...materialModules
+  ],
+  exports: [
+    ...materialModules
   ],
   providers: [],
 })

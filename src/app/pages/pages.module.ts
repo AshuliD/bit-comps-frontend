@@ -11,9 +11,10 @@ import { MaterialComponentsModule } from '../material-component/material.module'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemRegComponent } from './registration/item-reg/item-reg.component';
 import { GrnComponent } from './registration/grn/grn.component';
+import { EmployeeComponent } from './registration/employee/employee.component';
 
 @NgModule({
-  declarations: [FormDemoComponent,ItemRegComponent,GrnComponent],
+  declarations: [FormDemoComponent,ItemRegComponent,GrnComponent, EmployeeComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,
