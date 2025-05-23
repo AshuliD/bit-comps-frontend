@@ -7,7 +7,7 @@ import { EmployeeComponent } from './employee/employee.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [EmployeeComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(RegistrationRoutes)

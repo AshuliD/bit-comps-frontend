@@ -12,10 +12,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemRegComponent } from './registration/item-reg/item-reg.component';
 import { GrnComponent } from './registration/grn/grn.component';
 import { EmployeeComponent } from './registration/employee/employee.component';
-import { E } from '@angular/cdk/keycodes';
 
 @NgModule({
-  declarations: [FormDemoComponent,ItemRegComponent,GrnComponent,EmployeeComponent],
+  declarations: [FormDemoComponent,ItemRegComponent,GrnComponent, EmployeeComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,
