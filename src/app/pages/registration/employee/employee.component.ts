@@ -13,7 +13,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 })
 export class EmployeeComponent implements OnInit, AfterViewInit {
   employeeForm: FormGroup;
-  displayedColumns: string[] = ['id', 'name', 'age', 'birthDate', 'salary', 'phoneNumber', 'actions']; // Added 'id'
+  displayedColumns: string[] = ['name', 'age', 'birthDate', 'salary', 'phoneNumber', 'actions']; // Added 'id'
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -22,8 +22,9 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
 
   // Mode and state management
   mode: 'Save' | 'Edit' = 'Save';
-  saveBtnLabel: string = 'Save Employee';
+  saveBtnLabel = 'Save';
   selectedData: any = null; // To store employee data for editing
+  buttonColor: string = 'primary'; // Default button color
 
   constructor(
     private fb: FormBuilder,
@@ -55,6 +56,8 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     this.employeeService.getEmployees().subscribe({
       next: (data) => {
         this.dataSource.data = data;
+        console.log('Employees loaded:', data);
+
         // Paginator and sort are set in ngAfterViewInit
         // If data loads before ngAfterViewInit, they will be applied once available
       },
@@ -108,10 +111,16 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
   }
 
   editData(employeeData: any): void {
-    this.mode = 'Edit';
-    this.saveBtnLabel = 'Update Employee';
+
     this.selectedData = employeeData;
     this.employeeForm.patchValue(employeeData);
+    this.employeeForm.patchValue({ birthDate: new Date(employeeData.birthDate) });
+    this.mode = 'Edit';
+    this.saveBtnLabel = 'Update Employee';
+    this.buttonColor  = 'warn'; // Change button color to indicate edit mode
+
+
+
     // If you have a form directive, you can mark controls as dirty if needed
     // if (this.formDirective) {
     //   Object.keys(this.employeeForm.controls).forEach(key => {
@@ -127,14 +136,14 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
     }
     // Optional: Add a confirmation dialog here
     this.employeeService.deleteEmployee(employeeId).subscribe({
-      next: () => {
+      next: (data: any) => {
         this.messageService.showSuccess('Employee deleted successfully!');
         this.loadEmployees();
         if (this.selectedData && this.selectedData.id === employeeId) {
           this.resetForm(); // Reset form if the deleted item was being edited
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error deleting employee:', err);
         this.messageService.showError('Failed to delete employee.');
       }
@@ -154,7 +163,7 @@ export class EmployeeComponent implements OnInit, AfterViewInit {
       id: null
     });
     this.mode = 'Save';
-    this.saveBtnLabel = 'Save Employee';
+    this.saveBtnLabel = 'Save';
     this.selectedData = null;
   }
 

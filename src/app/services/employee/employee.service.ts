@@ -9,7 +9,7 @@ import { HttpService } from '../http.service'; // Ensure this path is correct
 })
 export class EmployeeService {
 
-  private apiUrl = environment.baseUrl + '/api/employees'; // Adjusted API URL path
+  private apiUrl = environment.baseUrl + '/employees'; // Adjusted API URL path
 
   constructor(
     private http: HttpClient,
@@ -28,20 +28,20 @@ export class EmployeeService {
   }
 
   getEmployees(): Observable<any> {
-    return this.http.get(this.apiUrl, { headers: this.getHeaders() });
+    return this.http.get(this.apiUrl + "/getAll", { headers: this.getHeaders() });
   }
 
   addEmployee(employee: any): Observable<any> {
-    return this.http.post(this.apiUrl, employee, { headers: this.getHeaders() });
+    return this.http.post(this.apiUrl + "/addEmployee", employee, { headers: this.getHeaders() });
   }
 
   updateEmployee(id: string | number, employee: any): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = `${this.apiUrl + "/updateEmp"}/${id}`;
     return this.http.put(url, employee, { headers: this.getHeaders() });
   }
 
   deleteEmployee(id: string | number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = this.apiUrl + "/deleteEmp" +"/" + id;
     return this.http.delete(url, { headers: this.getHeaders() });
   }
 }

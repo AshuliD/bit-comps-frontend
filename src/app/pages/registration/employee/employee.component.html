@@ -6,9 +6,10 @@
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Name</mat-label>
-          <input matInput formControlName="name" placeholder="Enter employee name">
+          <input matInput formControlName="name" placeholder="Enter name">
           <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
             Name is required.
           </mat-error>
@@ -33,11 +34,11 @@
 
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Phone Number</mat-label>
-          <input matInput formControlName="phoneNumber" placeholder="Enter phone number">
+          <input matInput  formControlName="phoneNumber" placeholder="Enter phone number">
         </mat-form-field>
 
         <mat-card-actions align="end">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!employeeForm.valid">Save Employee</button>
+          <button mat-raised-button color="primary" [ngClass]="{ 'btn-primary': mode === 'Save','btn-secondary': mode === 'Edit'}" type="submit" [disabled]="!employeeForm.valid">{{saveBtnLabel}}</button>
           <button mat-stroked-button color="warn" type="button" (click)="resetForm()">Reset</button>
         </mat-card-actions>
       </form>
@@ -50,7 +51,7 @@
       <mat-card-title>Employee List</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field appearance="standard" class="full-width">
+      <mat-form-field appearance="fill" class="full-width">
         <mat-label>Filter Employees</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="E.g. John Doe" #input>
       </mat-form-field>
@@ -95,7 +96,8 @@
               <button mat-icon-button color="primary" (click)="editData(element)" aria-label="Edit employee">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn" (click)="deleteData(element.id)" aria-label="Delete employee"> <!-- Assuming element has an 'id' property -->
+              <button mat-icon-button color="warn" (click)="deleteData(element.id)" aria-label="Delete employee">
+                <!-- Assuming element has an 'id' property -->
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
@@ -112,13 +114,32 @@
           </tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                       showFirstLastButtons
-                       aria-label="Select page of employees">
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of employees">
         </mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>
 </div>
 
+<!-- Basic Styling (can be moved to SCSS file later) -->
+<!-- <style>
+  .employee-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
 
+  .form-card, .table-card {
+    width: 100%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  mat-card-actions {
+    justify-content: flex-end; /* Aligns buttons to the right */
+    padding-right: 0; /* Removes default padding if any conflicts */
+  }
+</style> -->

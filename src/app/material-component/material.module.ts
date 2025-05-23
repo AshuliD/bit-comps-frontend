@@ -82,6 +82,7 @@ const materialModules = [
     TooltipComponent,
     SnackbarComponent,
     SliderComponent,
+    MatInputModule,
     SlideToggleComponent,
     ...materialModules
   ],

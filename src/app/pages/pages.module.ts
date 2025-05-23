@@ -13,6 +13,7 @@ import { ItemRegComponent } from './registration/item-reg/item-reg.component';
 import { GrnComponent } from './registration/grn/grn.component';
 import { EmployeeComponent } from './registration/employee/employee.component';
 
+
 @NgModule({
   declarations: [FormDemoComponent,ItemRegComponent,GrnComponent, EmployeeComponent],
   imports: [
@@ -25,6 +26,8 @@ import { EmployeeComponent } from './registration/employee/employee.component';
     ReactiveFormsModule,
     RegistrationModule,
     MaterialComponentsModule,
+
+
 
 
   ],

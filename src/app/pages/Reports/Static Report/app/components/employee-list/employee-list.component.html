@@ -1,0 +1,58 @@
+<div class="employee-report-container">
+  <div class="report-header">
+    <h1>Employee Report</h1>
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="search()"
+        placeholder="Search by name, position, or department"
+        class="search-input"
+      />
+    </div>
+  </div>
+
+  <div class="actions-bar">
+    <button class="print-button" (click)="printReport()">
+      <span class="print-icon"></span> Print Report
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && !error" class="table-container">
+    <table class="employee-table">
+      <thead>
+        <tr>
+          <th (click)="sortBy('id')" class="sortable">ID {{ getSortIcon('id') }}</th>
+          <th (click)="sortBy('name')" class="sortable">Name {{ getSortIcon('name') }}</th>
+          <th (click)="sortBy('age')" class="sortable">Age {{ getSortIcon('age') }}</th>
+          <th (click)="sortBy('phoneNumber')" class="sortable">Phone Number {{ getSortIcon('phoneNumber') }}</th>
+          <th (click)="sortBy('salary')" class="sortable">Salary {{ getSortIcon('salary') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of filteredEmployees" class="employee-row">
+          <td>{{ employee.id }}</td>
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.age.toLocaleString() }}</td>
+          <td>{{ employee.phoneNumber.toLocaleString() }}</td>
+          <td>${{ employee.salary.toLocaleString() }}</td>
+        </tr>
+        <tr *ngIf="filteredEmployees.length === 0">
+          <td colspan="6" class="no-results">No employees found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="report-footer">
+    <p>Generated on {{ getDate() }}</p>
+  </div>
+</div>
