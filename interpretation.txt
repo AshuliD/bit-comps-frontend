@@ -1,0 +1,4 @@
+Observed Difference in Means: 8.76
+P-value: 0.001
+The observed difference is statistically significant (p < 0.05).
+This suggests the difference is unlikely to be due to chance.

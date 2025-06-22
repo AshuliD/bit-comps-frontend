@@ -1,0 +1,39 @@
+<div class="summary-card card slide-in">
+  <h3 class="summary-title">Report Summary</h3>
+  
+  <div class="summary-content">
+    <div class="summary-stat">
+      <span class="stat-label">Total Items</span>
+      <span class="stat-value">{{ summary?.count || 0 }}</span>
+    </div>
+    
+    <ng-container *ngIf="reportType === 'employee' && summary?.averages">
+      <div class="summary-stat">
+        <span class="stat-label">Average Salary</span>
+        <span class="stat-value">${{ summary?.averages?.['salary'] | number }}</span>
+      </div>
+      <div class="summary-stat">
+        <span class="stat-label">Average Performance</span>
+        <span class="stat-value">{{ summary?.averages?.['performance'] | number:'1.1-1' }}</span>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="reportType === 'sales' && summary?.totals">
+      <div class="summary-stat">
+        <span class="stat-label">Total Revenue</span>
+        <span class="stat-value">${{ summary?.totals?.['revenue'] | number }}</span>
+      </div>
+      <div class="summary-stat">
+        <span class="stat-label">Total Quantity</span>
+        <span class="stat-value">{{ summary?.totals?.['quantity'] | number }}</span>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="reportType === 'inventory' && summary?.totals">
+      <div class="summary-stat">
+        <span class="stat-label">Total Stock</span>
+        <span class="stat-value">{{ summary?.totals?.['quantity'] | number }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>

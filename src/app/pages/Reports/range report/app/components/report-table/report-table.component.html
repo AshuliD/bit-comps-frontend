@@ -1,0 +1,92 @@
+<div class="report-table-container">
+  <div class="table-header">
+    <h3>{{ title }} ({{ data.length }} items)</h3>
+    <div class="table-actions">
+      <button class="btn btn-accent" (click)="generatePdf.emit()">
+        <span class="material-icons btn-icon">picture_as_pdf</span>
+        Generate PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table *ngIf="data.length > 0">
+      <thead>
+        <tr>
+          <ng-container *ngIf="reportType === 'employee'">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Salary</th>
+            <th>Hire Date</th>
+            <th>Performance</th>
+          </ng-container>
+          
+          <ng-container *ngIf="reportType === 'sales'">
+            <th>ID</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Customer</th>
+          </ng-container>
+          
+          <ng-container *ngIf="reportType === 'inventory'">
+            <th>ID</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Location</th>
+            <th>Last Restocked</th>
+            <th>Min Required</th>
+          </ng-container>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="reportType === 'employee'">
+          <tr *ngFor="let item of data">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.department }}</td>
+            <td>{{ item.position }}</td>
+            <td>${{ item.salary | number }}</td>
+            <td>{{ formatDate(item.hireDate) }}</td>
+            <td>{{ item.performance }}</td>
+          </tr>
+        </ng-container>
+        
+        <ng-container *ngIf="reportType === 'sales'">
+          <tr *ngFor="let item of data">
+            <td>{{ item.id }}</td>
+            <td>{{ item.product }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.unitPrice | number }}</td>
+            <td>${{ item.totalPrice | number }}</td>
+            <td>{{ formatDate(item.date) }}</td>
+            <td>{{ item.customer }}</td>
+          </tr>
+        </ng-container>
+        
+        <ng-container *ngIf="reportType === 'inventory'">
+          <tr *ngFor="let item of data">
+            <td>{{ item.id }}</td>
+            <td>{{ item.product }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ formatDate(item.lastRestocked) }}</td>
+            <td>{{ item.minimumRequired }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    
+    <div *ngIf="data.length === 0" class="no-data">
+      <p>No data found matching your search criteria.</p>
+    </div>
+  </div>
+</div>
