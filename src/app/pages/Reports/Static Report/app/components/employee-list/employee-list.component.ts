@@ -5,6 +5,10 @@ import { Employee } from '../../models/employee.model';
 import { EmployeeService } from '../../services/employee.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { PrintService } from '../../services/print.service';
+import Chart from 'chart.js/auto';
+import { getRelativePosition } from 'chart.js/helpers';
+
+
 
 @Component({
   selector: 'app-employee-list',
@@ -21,6 +25,7 @@ export class EmployeeListComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
   loading: boolean = true;
   error: string | null = null;
+  data:any;
 
   constructor(
     private employeeService: EmployeeService,
@@ -98,5 +103,31 @@ export class EmployeeListComponent implements OnInit {
   getDate(): string {
     const today = new Date();
     return today.toLocaleDateString();
+  }
+
+
+  chart: Chart | null = null;
+
+  ngAfterViewInit(): void {
+    const canvas = document.getElementById('employeeChart') as HTMLCanvasElement;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        this.chart = new Chart(ctx, {
+          type: 'line',
+          data: this.data,
+          options: {
+            onClick: (e) => {
+              if (!this.chart) return;
+              const canvasPosition = getRelativePosition(e, this.chart);
+
+              // Substitute the appropriate scale IDs
+              const dataX = this.chart.scales['x'].getValueForPixel(canvasPosition.x);
+              const dataY = this.chart.scales['y'].getValueForPixel(canvasPosition.y);
+            }
+          }
+        });
+      }
+    }
   }
 }
