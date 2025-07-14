@@ -20,6 +20,10 @@ interface Jobs {
 
 
 export class FormDemoComponent implements OnInit {
+//multiple select options
+options: string[] = ['Option A', 'Option B', 'Option C'];
+selectedOptions: string[] = [];
+
 
   jobs: Jobs[] = [];
 
@@ -48,6 +52,7 @@ export class FormDemoComponent implements OnInit {
       gender: new FormControl(''),
       birthDate: new FormControl(),
       role: new FormControl(),
+      multipleselect: new FormControl(),
     });
   }
 

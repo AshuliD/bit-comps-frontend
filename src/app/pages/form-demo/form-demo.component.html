@@ -2,6 +2,16 @@
   <div class="form-section">
     <form [formGroup]="demoForm" class="example-form" (ngSubmit)="onSubmit()" #formDirective="ngForm">
 
+      <mat-form-field appearance="fill">
+  <mat-label>Select options</mat-label>
+  <mat-select multiple [(value)]="selectedOptions" formControlName="multipleselect">
+    <mat-option *ngFor="let option of options" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
       <mat-form-field class="example-full-width">
         <mat-label>First Name</mat-label>
         <input matInput placeholder="firstName" formControlName="firstName">
